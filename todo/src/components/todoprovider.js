@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import uuid from 'react-uuid';
 
 export const ToDoContext = createContext();
@@ -8,6 +8,8 @@ export const ACTIONS = {
   EDIT_TODO: 'EDIT_TODO',
   DELETE_TODO: 'DELETE_TODO',
   SAVE_EDIT: 'SAVE_EDIT',
+  TOGGLE_VIEW: 'TOGGLE_VIEW',
+  COMPLETED: 'COMPLETED'
 };
 
 function reducer(todos, action) {
@@ -42,12 +44,20 @@ function reducer(todos, action) {
             name: action.payload.change,
           };
         } else {
-            return todo
+          return todo;
         }
       });
     case ACTIONS.DELETE_TODO:
       const toDelete = todos.filter((todo) => todo.id !== action.payload.id);
       return toDelete;
+    case ACTIONS.COMPLETED:
+      return todos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return { ...todo, complete: !todo.complete };
+        } else {
+          return todo;
+        }
+      });
     default:
       return todos;
   }
@@ -55,8 +65,28 @@ function reducer(todos, action) {
 
 function ToDoProvider(props) {
   const [todos, dispatch] = useReducer(reducer, []);
+  const [view, setView] = useState(todos);
+
+  useEffect(() => {
+    handleView();
+  }, [todos]);
+
+  const handleView = (e) => {
+    if (e === 'All') {
+      setView(todos);
+    } else if (e === 'Completed') {
+      const completed = todos.filter((todo) => todo.completed === true);
+      setView(completed);
+    } else {
+      const inProgress = todos.filter((todo) => todo.completed === false);
+      setView(inProgress);
+    }
+  };
+
+  console.log(view, 'view');
+
   return (
-    <ToDoContext.Provider value={{ todos, dispatch }}>
+    <ToDoContext.Provider value={{ todos, dispatch, view, handleView }}>
       {props.children}
     </ToDoContext.Provider>
   );
