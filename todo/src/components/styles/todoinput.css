@@ -1,0 +1,15 @@
+/* .todoInputDiv{
+    border:1px solid blue;
+} */
+
+.todoInput {
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 2rem;
+    width: 60%;
+    padding: .5rem;
+}
+
+.todoInputButton{
+    padding: 0.4rem;
+}
