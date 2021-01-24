@@ -1,7 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { ToDoContext } from './todoprovider';
 import { ACTIONS } from './todoreducer';
-import './styles/todoinput.css';
+import { Button } from './styles/button.js';
+import { Input } from './styles/inputs.js';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  height: 2rem;
+  & > * {
+    height: 100%;
+  }
+`;
 
 function ToDoInput() {
   const [input, setInput] = useState('');
@@ -19,27 +28,24 @@ function ToDoInput() {
   };
 
   return (
-    <div className='todoInputDiv'>
-      <input
-        className='todoInput'
+    <Wrapper>
+      <Input
+        main
         type='text'
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => checkEnter(e)}
-      ></input>
-      <button className='btn btn-add' onClick={handleInput}>
+      ></Input>
+      <Button color='rgb(115, 215, 255)' onClick={handleInput}>
         Add Item
-      </button>
+      </Button>
 
-      <select
-        className='view-toggler'
-        onChange={(e) => handleView(e.target.value)}
-      >
+      <select onChange={(e) => handleView(e.target.value)}>
         <option value='All'>All</option>
         <option value='Completed'>Completed</option>
         <option value='In Progress'>In Progress</option>
       </select>
-    </div>
+    </Wrapper>
   );
 }
 

@@ -1,21 +1,22 @@
 import React, { useContext } from 'react';
 import { ToDoContext } from './todoprovider';
 import ToDoItem from './todoitem';
-import './styles/todolist.css'
+import styled from 'styled-components';
 
-function ToDoList(){
+const Wrapper = styled.div`
+  margin-top: 2rem;
+`;
 
-    const { selected } = useContext(ToDoContext);
+function ToDoList() {
+  const { selected } = useContext(ToDoContext);
 
-
-    return (
-        
-        <div className="todo-list">
-            {selected.map(todo=> <ToDoItem key={todo.id} todo={todo}/>)}
-        </div>
-        
-    
-    )
+  return (
+    <Wrapper>
+      {selected.map(todo => (
+        <ToDoItem key={todo.id} todo={todo} />
+      ))}
+    </Wrapper>
+  );
 }
 
 export default ToDoList;

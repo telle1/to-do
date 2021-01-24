@@ -1,8 +1,24 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import {ToDoContext} from './todoprovider';
+import { ToDoContext } from './todoprovider';
 import { ACTIONS } from './todoreducer';
+import { Input } from './styles/inputs.js';
+import { Button } from './styles/button.js';
+import styled from 'styled-components';
 
-import './styles/todoitem.css';
+const TodoItem = styled.div`
+  background-color: white;
+  display: flex;
+  width: 60%;
+  margin: auto;
+  margin-bottom: 1rem;
+  min-height: 2rem;
+  align-items: center;
+`;
+
+const TodoName = styled.span`
+  margin-right: auto;
+  text-decoration: ${(props) => (props.completed ? 'line-through' : 'none')};
+`;
 
 function ToDoItem({ todo }) {
   const { dispatch } = useContext(ToDoContext);
@@ -16,67 +32,44 @@ function ToDoItem({ todo }) {
   }, [todo.editMode]);
 
   return (
-    <div className='todo-item'>
+    <TodoItem>
       {todo.editMode ? (
         <React.Fragment>
-          <input
-            ref={editRef}
-            className='todo-edit'
-            type='text'
-            value={edit}
-            onChange={(e) => setEdit(e.target.value)}
-          ></input>
-          <button
-            className='btn btn-save'
-            onClick={() =>
-              dispatch({
-                type: ACTIONS.SAVE_EDIT,
-                payload: { id: todo.id, change: edit },
-              })
-            }
+          <Input ref={editRef} type='text' value={edit} onChange={(e) => setEdit(e.target.value)}></Input>
+          <Button
+            color='rgb(253, 144, 162)'
+            onClick={() => dispatch({ type: ACTIONS.SAVE_EDIT, payload: { id: todo.id, change: edit } })}
           >
             Save
-          </button>
+          </Button>
         </React.Fragment>
       ) : (
         <React.Fragment>
           {todo.completed ? (
-            <button className='btn btn-check'>
+            <Button textColor='rgb(45, 204, 45)'>
               <i className='fas fa-check'></i>
-            </button>
+            </Button>
           ) : (
-            <div>
-              <button
-                className='btn btn-complete'
-                onClick={() =>
-                  dispatch({ type: ACTIONS.COMPLETE, payload: { id: todo.id } })
-                }
-              />
-            </div>
+            <Button round onClick={() => dispatch({ type: ACTIONS.COMPLETE, payload: { id: todo.id } })} />
           )}
-          <span className='item-name' style={{textDecoration: todo.completed ? 'line-through' : 'none'
-        }}>{todo.name}</span>
+          <TodoName completed={todo.completed}>{todo.name}</TodoName>
 
-          <button
-            className='btn btn-edit'
+          <Button
+            color='rgb(253, 144, 162)'
             disabled={todo.completed}
-            onClick={() =>
-              dispatch({ type: ACTIONS.EDIT_TODO, payload: { id: todo.id } })
-            }
+            onClick={() => dispatch({ type: ACTIONS.EDIT_TODO, payload: { id: todo.id } })}
           >
             <i class='fas fa-edit'></i>
-          </button>
-          <button
-            className='btn btn-delete'
-            onClick={() =>
-              dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })
-            }
+          </Button>
+          <Button
+            color='rgb(115, 215, 255)'
+            onClick={() => dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })}
           >
             <i class='far fa-trash-alt'></i>
-          </button>
+          </Button>
         </React.Fragment>
       )}
-    </div>
+    </TodoItem>
   );
 }
 
