@@ -7,8 +7,14 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & > * {
     height: 100%;
+  }
+  @media(max-width:600px){
+    height: 2.5rem;
   }
 `;
 
@@ -39,7 +45,6 @@ function ToDoInput() {
       <Button color='rgb(115, 215, 255)' onClick={handleInput}>
         Add Item
       </Button>
-
       <select onChange={(e) => handleView(e.target.value)}>
         <option value='All'>All</option>
         <option value='Completed'>Completed</option>
