@@ -1,9 +1,32 @@
 .App{
-  padding: 5rem;
+  padding: 4rem;
   text-align: center;
-  border: 1px solid red;
+  background: linear-gradient(to right bottom, rgb(255, 154, 171), rgb(98, 213, 252));
+  min-height: 100vh;
+}
+
+.header{
+  font-size: 4rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  color: white;
 }
 
 .btn {
   padding: 0.5rem;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+button:disabled{
+  background-color: rgb(233, 233, 233);
+}
+
+button:disabled:hover{
+  cursor: auto;
+}
+
+.btn:hover{
+  cursor: pointer;
 }

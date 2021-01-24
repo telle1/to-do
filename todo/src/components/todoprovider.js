@@ -9,7 +9,7 @@ export const ACTIONS = {
   DELETE_TODO: 'DELETE_TODO',
   SAVE_EDIT: 'SAVE_EDIT',
   TOGGLE_VIEW: 'TOGGLE_VIEW',
-  COMPLETED: 'COMPLETED'
+  COMPLETE: 'COMPLETED'
 };
 
 function reducer(todos, action) {
@@ -50,10 +50,10 @@ function reducer(todos, action) {
     case ACTIONS.DELETE_TODO:
       const toDelete = todos.filter((todo) => todo.id !== action.payload.id);
       return toDelete;
-    case ACTIONS.COMPLETED:
+    case ACTIONS.COMPLETE:
       return todos.map((todo) => {
         if (todo.id === action.payload.id) {
-          return { ...todo, complete: !todo.complete };
+          return { ...todo, completed: !todo.completed };
         } else {
           return todo;
         }
@@ -65,28 +65,35 @@ function reducer(todos, action) {
 
 function ToDoProvider(props) {
   const [todos, dispatch] = useReducer(reducer, []);
-  const [view, setView] = useState(todos);
+  const [view, setView] = useState('All');
+  const [selected, setSelected] = useState([])
 
   useEffect(() => {
-    handleView();
-  }, [todos]);
+    displayedToDos()
+  }, [todos, view]);
 
-  const handleView = (e) => {
-    if (e === 'All') {
-      setView(todos);
-    } else if (e === 'Completed') {
-      const completed = todos.filter((todo) => todo.completed === true);
-      setView(completed);
-    } else {
-      const inProgress = todos.filter((todo) => todo.completed === false);
-      setView(inProgress);
-    }
+  const handleView = (e) => {   
+    setView(e)
   };
 
+  const displayedToDos = () => {
+    if (view === 'All') {
+      setSelected(todos);
+    } else if (view === 'Completed') {
+      const completed = todos.filter((todo) => todo.completed === true);
+      setSelected(completed);
+    } else if (view === 'In Progress'){
+      const inProgress = todos.filter((todo) => todo.completed === false);
+      setSelected(inProgress);
+    }
+  }
+
   console.log(view, 'view');
+  console.log(todos, 'todos');
+
 
   return (
-    <ToDoContext.Provider value={{ todos, dispatch, view, handleView }}>
+    <ToDoContext.Provider value={{ todos, dispatch, selected, handleView }}>
       {props.children}
     </ToDoContext.Provider>
   );

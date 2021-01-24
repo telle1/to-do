@@ -1,21 +1,31 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ACTIONS, ToDoContext } from './todoprovider';
 import './styles/todoitem.css';
 
 function ToDoItem({ todo }) {
   const { dispatch } = useContext(ToDoContext);
-  const [edit, setEdit] = useState(todo.name)
+  const [edit, setEdit] = useState(todo.name);
+  const editRef = useRef();
+
+  useEffect(() => {
+    if (todo.editMode) {
+      editRef.current.focus();
+    }
+  }, [todo.editMode]);
 
   return (
     <div className='todo-item'>
       {todo.editMode ? (
         <React.Fragment>
-          <input className="todo-edit"
+          <input
+            ref={editRef}
+            className='todo-edit'
             type='text'
             value={edit}
             onChange={(e) => setEdit(e.target.value)}
           ></input>
           <button
+            className='btn btn-save'
             onClick={() =>
               dispatch({
                 type: ACTIONS.SAVE_EDIT,
@@ -28,15 +38,31 @@ function ToDoItem({ todo }) {
         </React.Fragment>
       ) : (
         <React.Fragment>
-            <button className="btn">Complete</button>
-          <span className='item-name'>{todo.name}</span>
+          {todo.completed ? (
+            <button className='btn btn-check'>
+              <i className='fas fa-check'></i>
+            </button>
+          ) : (
+            <div>
+              <button
+                className='btn btn-complete'
+                onClick={() =>
+                  dispatch({ type: ACTIONS.COMPLETE, payload: { id: todo.id } })
+                }
+              />
+            </div>
+          )}
+          <span className='item-name' style={{textDecoration: todo.completed ? 'line-through' : 'none'
+        }}>{todo.name}</span>
+
           <button
             className='btn btn-edit'
+            disabled={todo.completed}
             onClick={() =>
               dispatch({ type: ACTIONS.EDIT_TODO, payload: { id: todo.id } })
             }
           >
-            Edit
+            <i class='fas fa-edit'></i>
           </button>
           <button
             className='btn btn-delete'
@@ -44,9 +70,9 @@ function ToDoItem({ todo }) {
               dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })
             }
           >
-            Delete
+            <i class='far fa-trash-alt'></i>
           </button>
-    </React.Fragment>
+        </React.Fragment>
       )}
     </div>
   );

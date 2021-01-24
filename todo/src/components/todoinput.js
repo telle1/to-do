@@ -21,15 +21,11 @@ function ToDoInput() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       ></input>
-      <button className='todoInputButton' onClick={handleInput}>
-        Add
+      <button className='btn btn-add' onClick={handleInput}>
+        Add Item
       </button>
 
-      <select name='view_toggler' id='view' onChange={(e) =>
-        //   dispatch({
-        //     type: ACTIONS.TOGGLE_VIEW,
-        //     payload: { view: e.target.value },
-        //   })
+      <select className='view-toggler' onChange={(e) =>
         handleView(e.target.value)
         }>
         <option value='All'>All</option>

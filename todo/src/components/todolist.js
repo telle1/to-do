@@ -5,13 +5,13 @@ import './styles/todolist.css'
 
 function ToDoList(){
 
-    const { view } = useContext(ToDoContext);
-    console.log(view, 'views')
+    const { selected } = useContext(ToDoContext);
+
 
     return (
         
         <div className="todo-list">
-            {view.map(todo=> <ToDoItem key={todo.id} todo={todo}/>)}
+            {selected.map(todo=> <ToDoItem key={todo.id} todo={todo}/>)}
         </div>
         
     
