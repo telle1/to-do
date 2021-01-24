@@ -1,5 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { ACTIONS, ToDoContext } from './todoprovider';
+import {ToDoContext} from './todoprovider';
+import { ACTIONS } from './todoreducer';
+
 import './styles/todoitem.css';
 
 function ToDoItem({ todo }) {

@@ -13,9 +13,7 @@
     margin-right: auto;
 }
 
-.item-name:hover{
-   cursor: pointer;
-}
+
 
 .todo-edit{
     width: 100%;
