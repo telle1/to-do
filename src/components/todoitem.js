@@ -46,7 +46,7 @@ function ToDoItem({ todo }) {
       ) : (
         <React.Fragment>
           {todo.completed ? (
-            <Button textColor='rgb(45, 204, 45)'>
+            <Button textColor='rgb(253, 144, 162)'>
               <i className='fas fa-check'></i>
             </Button>
           ) : (
@@ -61,8 +61,7 @@ function ToDoItem({ todo }) {
           >
             <i class='fas fa-edit'></i>
           </Button>
-          <Button
-            color='rgb(115, 215, 255)'
+          <Button textColor='rgb(253, 144, 162)'
             onClick={() => dispatch({ type: ACTIONS.DELETE_TODO, payload: { id: todo.id } })}
           >
             <i class='far fa-trash-alt'></i>

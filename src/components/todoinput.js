@@ -42,7 +42,7 @@ function ToDoInput() {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => checkEnter(e)}
       ></Input>
-      <Button color='rgb(115, 215, 255)' onClick={handleInput}>
+      <Button color='rgb(253, 144, 162)' onClick={handleInput}>
         Add Item
       </Button>
       <select onChange={(e) => handleView(e.target.value)}>
